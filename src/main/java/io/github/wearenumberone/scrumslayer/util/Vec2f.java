@@ -55,7 +55,7 @@ public class Vec2f {
 		return this.x == other.x && this.y == other.y;
 	}
 	public String toString() {
-		return String.format("(%d, %d)", this.x, this.y);
+		return String.format("(%f, %f)", this.x, this.y);
 	}
 
 	public static final Vec2f ZERO = new Vec2f(0, 0);
