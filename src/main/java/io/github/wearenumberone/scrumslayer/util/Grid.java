@@ -35,7 +35,7 @@ public class Grid<T> {
 		this.paste(new Vec2i(x, y), grid);
 	}
 	public void paste(Vec2i position, Grid<T> grid) {
-		if (!this.isInBounds(position) || !this.isInBounds(position.add(grid.size()))) throw new IndexOutOfBoundsException("Pasting grid is out of bounds");
+		if (!this.isInBounds(position) || !this.isInBounds(position.add(grid.size().subtract(Vec2i.IDENTITY)))) throw new IndexOutOfBoundsException("Pasting grid is out of bounds");
 
 		grid.forEach((v, offset) -> this.set(position.add(offset), v));
 	}
