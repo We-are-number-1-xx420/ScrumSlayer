@@ -58,8 +58,8 @@ public class Vec2f {
 		return String.format("(%d, %d)", this.x, this.y);
 	}
 
-	public static final Vec2i ZERO = new Vec2i(0, 0);
-	public static final Vec2i X_AXIS = new Vec2i(1, 0);
-	public static final Vec2i Y_AXIS = new Vec2i(0, 1);
-	public static final Vec2i IDENTITY = X_AXIS.add(Y_AXIS);
+	public static final Vec2f ZERO = new Vec2f(0, 0);
+	public static final Vec2f X_AXIS = new Vec2f(1, 0);
+	public static final Vec2f Y_AXIS = new Vec2f(0, 1);
+	public static final Vec2f IDENTITY = X_AXIS.add(Y_AXIS);
 }
