@@ -61,6 +61,8 @@ public class ConsoleStyle {
 		return this.setInverse(true);
 	}
 
+	public static final ConsoleStyle RESET = new ConsoleStyle();
+
 	public String getPrefix() {
 		StringBuilder prefixBuilder = new StringBuilder("\033[0");
 
