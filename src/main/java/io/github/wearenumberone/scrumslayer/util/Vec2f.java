@@ -16,7 +16,7 @@ public class Vec2f {
 		return this.y;
 	}
 
-	public Vec2f inverted() {
+	public Vec2f invert() {
 		return new Vec2f(-this.x, -this.y);
 	}
 
