@@ -18,6 +18,6 @@ public class StyledCharacter {
 
 	@Override
 	public String toString() {
-		return this.style.getPrefix() + this.character;
+		return this.style.getPrefix() + this.character + ConsoleStyle.RESET.getPrefix();
 	}
 }
