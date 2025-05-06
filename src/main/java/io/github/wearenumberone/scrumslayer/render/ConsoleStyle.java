@@ -9,8 +9,7 @@ public class ConsoleStyle {
 		BLUE(4),
 		PURPLE(5),
 		CYAN(6),
-		WHITE(7),
-		UNKNOWN(9);
+		WHITE(7);
 
 		private final int n;
 
