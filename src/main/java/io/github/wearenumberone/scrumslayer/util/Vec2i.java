@@ -52,4 +52,5 @@ public class Vec2i {
 	public static final Vec2i ZERO = new Vec2i(0, 0);
 	public static final Vec2i X_AXIS = new Vec2i(1, 0);
 	public static final Vec2i Y_AXIS = new Vec2i(0, 1);
+	public static final Vec2i IDENTITY = X_AXIS.add(Y_AXIS);
 }
