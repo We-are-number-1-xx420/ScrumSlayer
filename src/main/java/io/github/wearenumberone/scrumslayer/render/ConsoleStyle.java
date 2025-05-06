@@ -80,4 +80,8 @@ public class ConsoleStyle {
 	public String toString() {
 		return this.getPrefix();
 	}
+
+	public String apply(String string) {
+		return this.getPrefix() + string + ConsoleStyle.RESET.getPrefix();
+	}
 }
