@@ -173,4 +173,10 @@ public class Grid<T> {
 
 		return new Grid<Character>(width, height).fill(position -> lines[position.getY()].charAt(position.getX()));
 	}
+
+	public static <K> Grid<K> ofSingle(K value) {
+		Grid<K> grid = new Grid<>(1, 1);
+		grid.set(0, 0, value);
+		return grid;
+	}
 }

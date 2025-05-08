@@ -1,28 +1,27 @@
 package io.github.wearenumberone.scrumslayer.mapping;
 
+import io.github.wearenumberone.scrumslayer.entities.PlayerEntity;
+import io.github.wearenumberone.scrumslayer.render.Renderable;
+import io.github.wearenumberone.scrumslayer.render.StyledCharacter;
 import io.github.wearenumberone.scrumslayer.util.Grid;
-import io.github.wearenumberone.scrumslayer.util.Vec2i;
+import io.github.wearenumberone.scrumslayer.entities.Entity;
+import java.util.*;
 
-public class Room {
-    // ▢▢▥▨▬▩▦▣▤▧
-    Tile [] [] map = {
-            {Tile.WALL, Tile.WALL, Tile.WALL, Tile.WALL, Tile.WALL},
-            {Tile.WALL, Tile.EMPTY, Tile.EMPTY, Tile.EMPTY, Tile.WALL},
-            {Tile.WALL, Tile.EMPTY, Tile.EMPTY, Tile.EMPTY, Tile.WALL},
-            {Tile.WALL, Tile.EMPTY, Tile.EMPTY, Tile.EMPTY, Tile.WALL},
-            {Tile.WALL, Tile.WALL, Tile.WALL, Tile.WALL, Tile.WALL}
-    };
-    private World controller;
-    private Vec2i position;
-    private Grid<Tile> layout = new Grid<>(map);
+public class Room implements Renderable {
+    private final World controller;
+    private Grid<Tile> layout = new Grid<>(new Tile[][] {
+       {Tile.WALL, Tile.WALL, Tile.WALL, Tile.WALL, Tile.WALL},
+       {Tile.WALL, Tile.EMPTY, Tile.EMPTY, Tile.EMPTY, Tile.WALL},
+       {Tile.WALL, Tile.EMPTY, Tile.EMPTY, Tile.EMPTY, Tile.WALL},
+       {Tile.WALL, Tile.EMPTY, Tile.EMPTY, Tile.EMPTY, Tile.WALL},
+       {Tile.WALL, Tile.WALL, Tile.WALL, Tile.WALL, Tile.WALL}
+    });
     private String question;
     private int answer;
     private boolean cleared = false;
     private boolean locked;
-    //private List<Character> entity;
+    private Set<Entity> entities = new HashSet<>();
     //private Item unlockable;
-
-
     public Room(World world){
         this.controller = world;
     }
@@ -30,28 +29,19 @@ public class Room {
     public void activateEnemy(){
         System.out.println("You've activated my trap card!");
         System.out.println("The enemy has stolen one of your lives. Try the question again.");
-        // todo: playerStatus -1?
-        // todo: call question asking method?
-    }
-
-    public String render() {
-        StringBuilder builder = new StringBuilder();
-        for (int j = 0; j < layout.getHeight(); j++){
-            for (int i = 0; i < layout.getWidth(); i++) {
-                builder.append(layout.get(i, j));
-            }
-            builder.append("\n");
+        for(var entry : entities) if(entry instanceof PlayerEntity) {
+            ((PlayerEntity) entry).setHitPoints(((PlayerEntity) entry).getHitPoints() - 1);
         }
-        //builder.append("\n" + this.question);
-        return builder.toString();
+
+        // TODO: call question asking method?
     }
 
-    public Tile[][] getMap() {
-        return map;
-    }
+    public Grid<StyledCharacter> render() {
+        Grid<StyledCharacter> renderedGrid = this.layout.map(Tile::getAppearance);
 
-    public void setMap(Tile[][] map) {
-        this.map = map;
+        for (Entity entity : this.entities) renderedGrid.paste(entity.getPosition(), entity.render());
+
+        return renderedGrid;
     }
 
     public Grid<Tile> getLayout() {
@@ -96,17 +86,5 @@ public class Room {
 
     public World getController() {
         return this.controller;
-    }
-
-    public void setController(World controller) {
-        this.controller = controller;
-    }
-
-    public Vec2i getPosition() {
-        return position;
-    }
-
-    public void setPosition(Vec2i position) {
-        this.position = position;
     }
 }

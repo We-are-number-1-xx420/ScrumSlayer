@@ -1,5 +1,6 @@
 package io.github.wearenumberone.scrumslayer;
 
+import io.github.wearenumberone.scrumslayer.entities.PlayerCharacter;
 import io.github.wearenumberone.scrumslayer.mapping.World;
 
 import java.io.InputStream;
@@ -12,6 +13,7 @@ public class Game {
     private boolean running;
     private String input;
     private World map = new World();
+    private PlayerCharacter player;
 
     public Game(InputStream in, OutputStream out){
         this.in = in;
