@@ -22,6 +22,16 @@ public abstract class LivingEntity extends Entity {
         this.health = health;
         this.updateHealth();
     }
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
+        this.updateHealth();
+    }
+    public int getHealth() {
+        return this.health;
+    }
+    public int getMaxHealth() {
+        return this.maxHealth;
+    }
 
     public void takeDamage(int damage) {
         this.changeHealth(-damage);

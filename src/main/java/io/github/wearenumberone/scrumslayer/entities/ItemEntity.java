@@ -10,7 +10,7 @@ public class ItemEntity extends Entity {
 
     @Override
     public Grid<StyledCharacter> render() {
-        return Grid.ofSingle(new StyledCharacter('⛏', new ConsoleStyle().setForeground(ConsoleStyle.Color.YELLOW)));
+        return Grid.ofSingle(this.item.getAppearance());
     }
 
     public ItemEntity(Item item) {

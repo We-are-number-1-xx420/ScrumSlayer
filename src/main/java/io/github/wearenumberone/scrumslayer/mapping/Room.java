@@ -1,10 +1,15 @@
 package io.github.wearenumberone.scrumslayer.mapping;
 
+import io.github.wearenumberone.scrumslayer.Question;
+import io.github.wearenumberone.scrumslayer.entities.MonsterEntity;
 import io.github.wearenumberone.scrumslayer.entities.PlayerEntity;
+import io.github.wearenumberone.scrumslayer.item.KeyItem;
 import io.github.wearenumberone.scrumslayer.render.Renderable;
 import io.github.wearenumberone.scrumslayer.render.StyledCharacter;
 import io.github.wearenumberone.scrumslayer.util.Grid;
 import io.github.wearenumberone.scrumslayer.entities.Entity;
+import io.github.wearenumberone.scrumslayer.util.Vec2i;
+
 import java.util.*;
 
 public class Room implements Renderable {
@@ -16,32 +21,38 @@ public class Room implements Renderable {
        {Tile.WALL, Tile.EMPTY, Tile.EMPTY, Tile.EMPTY, Tile.WALL},
        {Tile.WALL, Tile.WALL, Tile.WALL, Tile.WALL, Tile.WALL}
     });
-    private String question;
-    private int answer;
-    private boolean cleared = false;
-    private boolean locked;
-    private Set<Entity> entities = new HashSet<>();
-    //private Item unlockable;
+    private KeyItem lockedKey;
+    private Question question;
+    private List<Entity> entities = new ArrayList<>();
+
     public Room(World world){
         this.controller = world;
     }
 
-    public void activateEnemy(){
-        System.out.println("You've activated my trap card!");
-        System.out.println("The enemy has stolen one of your lives. Try the question again.");
-        for(var entry : entities) if(entry instanceof PlayerEntity) {
-            ((PlayerEntity) entry).setHitPoints(((PlayerEntity) entry).getHitPoints() - 1);
-        }
-
-        // TODO: call question asking method?
-    }
-
     public Grid<StyledCharacter> render() {
+        this.entities.removeIf(Entity::isDead);
+
         Grid<StyledCharacter> renderedGrid = this.layout.map(Tile::getAppearance);
 
-        for (Entity entity : this.entities) renderedGrid.paste(entity.getPosition(), entity.render());
+        for (Entity entity : this.entities) renderedGrid.paste(entity instanceof PlayerEntity ? new Vec2i(2, 3) : new Vec2i(2, 1), entity.render());
 
         return renderedGrid;
+    }
+
+    public boolean hasMonster(){
+        for(var entry : this.entities){
+            if(entry instanceof MonsterEntity) return true;
+        }
+        return false;
+    }
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public Room setQuestion(Question question) {
+        this.question = question;
+        return this;
     }
 
     public Grid<Tile> getLayout() {
@@ -52,39 +63,40 @@ public class Room implements Renderable {
         this.layout = layout;
     }
 
-    public String getQuestion() {
-        return this.question;
+    public KeyItem getLockedKey() {
+        return lockedKey;
     }
 
-    public void setQuestion(String question) {
-        this.question = question;
+    public void setLockedKey(KeyItem lockedKey) {
+        this.lockedKey = lockedKey;
     }
 
-    public int getAnswer() {
-        return this.answer;
-    }
-
-    public void setAnswer(int answer) {
-        this.answer = answer;
-    }
-
-    public boolean isCleared() {
-        return this.cleared;
-    }
-
-    public void setCleared(boolean cleared) {
-        this.cleared = cleared;
+    public void setEntities(List<Entity> entities) {
+        this.entities = entities;
     }
 
     public boolean isLocked() {
-        return this.locked;
+        return this.lockedKey != null;
     }
 
-    public void setLocked(boolean locked) {
-        this.locked = locked;
+    public void setLocked(KeyItem key) {
+        this.lockedKey = key;
     }
 
     public World getController() {
         return this.controller;
+    }
+
+    public List<Entity> getEntities() {
+        return entities;
+    }
+
+    public Room addEntity(Entity entity) {
+        this.entities.add(entity);
+        return this;
+    }
+
+    public void removeEntity(Entity entity) {
+        this.entities.remove(entity);
     }
 }

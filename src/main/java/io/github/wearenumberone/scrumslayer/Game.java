@@ -1,6 +1,6 @@
 package io.github.wearenumberone.scrumslayer;
 
-import io.github.wearenumberone.scrumslayer.entities.PlayerCharacter;
+import io.github.wearenumberone.scrumslayer.entities.PlayerEntity;
 import io.github.wearenumberone.scrumslayer.mapping.World;
 
 import java.io.InputStream;
@@ -11,21 +11,33 @@ public class Game {
     private InputStream in;
     private OutputStream out;
     private boolean running;
-    private String input;
-    private World map = new World();
-    private PlayerCharacter player;
+    private World map;
+    private PlayerEntity player;
 
-    public Game(InputStream in, OutputStream out){
+    public Game(InputStream in, OutputStream out) {
         this.in = in;
         this.out = out;
+
+        this.map = DataSeeder.THE_WORLD;
+
+        this.map.setCurrentRoom(this.map.getRoomGrid().get(this.map.getRoomGrid().find(room -> room != null && room.getEntities().stream().anyMatch(PlayerEntity.class::isInstance))));
     }
 
-    public void start(){
+    public void start() {
         final Scanner sc = new Scanner(this.in);
         this.running = true;
-        while(this.running){
-            input = sc.next();
-            this.map.setInput(this.input);
+        while (this.running) {
+            System.out.println(this.map.render().toString());
+            this.processInput(sc.next());
+        }
+    }
+
+    private void processInput(String input) {
+        String regex = "\\d+";
+        if(input.matches(regex)){
+            this.map.tryAnswer(input);
+        }else{
+            this.map.tryMove(input);
         }
     }
 
