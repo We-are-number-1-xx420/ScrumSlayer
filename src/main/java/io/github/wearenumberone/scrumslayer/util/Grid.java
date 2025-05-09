@@ -48,7 +48,7 @@ public class Grid<T> {
 	}
 
 	public boolean exists(int x, int y) {
-		return this.get(x, y) != null;
+		return this.isInBounds(x, y) && this.get(x, y) != null;
 	}
 	public boolean exists(Vec2i position) {
 		return this.exists(position.getX(), position.getY());
@@ -172,5 +172,11 @@ public class Grid<T> {
 		int height = lines.length;
 
 		return new Grid<Character>(width, height).fill(position -> lines[position.getY()].charAt(position.getX()));
+	}
+
+	public static <K> Grid<K> ofSingle(K value) {
+		Grid<K> grid = new Grid<>(1, 1);
+		grid.set(0, 0, value);
+		return grid;
 	}
 }
