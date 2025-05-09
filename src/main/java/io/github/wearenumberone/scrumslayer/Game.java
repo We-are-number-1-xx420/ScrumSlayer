@@ -5,18 +5,19 @@ import io.github.wearenumberone.scrumslayer.mapping.World;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.Scanner;
 
 public class Game {
     private InputStream in;
-    private OutputStream out;
+    private PrintStream out;
     private boolean running;
     private World map;
     private PlayerEntity player;
 
     public Game(InputStream in, OutputStream out) {
         this.in = in;
-        this.out = out;
+        this.out = new PrintStream(out);
 
         this.map = DataSeeder.THE_WORLD;
 
