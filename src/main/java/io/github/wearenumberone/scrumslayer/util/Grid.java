@@ -48,7 +48,7 @@ public class Grid<T> {
 	}
 
 	public boolean exists(int x, int y) {
-		return this.get(x, y) != null;
+		return this.isInBounds(x, y) && this.get(x, y) != null;
 	}
 	public boolean exists(Vec2i position) {
 		return this.exists(position.getX(), position.getY());
