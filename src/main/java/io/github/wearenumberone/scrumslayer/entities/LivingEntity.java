@@ -4,7 +4,7 @@ public abstract class LivingEntity extends Entity {
     private int maxHealth;
     private int health;
 
-    public LivingEntity(int maxHealth) {
+    protected LivingEntity(int maxHealth) {
         this.maxHealth = maxHealth;
         this.health = maxHealth;
     }

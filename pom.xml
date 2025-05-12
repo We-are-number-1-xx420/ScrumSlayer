@@ -18,6 +18,11 @@
             <name>TCAGM</name>
             <url>https://github.com/TCAGM-Dev</url>
         </developer>
+
+        <developer>
+            <name>Salad Man</name>
+            <url>github.com/Julius-IX</url>
+        </developer>
     </developers>
 
     <properties>

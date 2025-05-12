@@ -24,7 +24,7 @@ public abstract class Room implements Renderable {
     protected Vec2i position;
     protected boolean isLocked;
 
-    public Room(World parent) {
+    protected Room(World parent) {
         this.parent = parent;
     }
 
@@ -43,7 +43,6 @@ public abstract class Room implements Renderable {
     protected Grid<Tile> getLayout() {
         return layout;
     }
-
     protected void setLayout(Grid<Tile> layout) {
         this.layout = layout;
     }
@@ -51,7 +50,6 @@ public abstract class Room implements Renderable {
     protected boolean isCleared() {
         return isCleared;
     }
-
     protected void setCleared(boolean cleared) {
         isCleared = cleared;
     }
@@ -59,7 +57,6 @@ public abstract class Room implements Renderable {
     protected World getParent() {
         return parent;
     }
-
     protected void setParent(World parent) {
         this.parent = parent;
     }
@@ -67,15 +64,19 @@ public abstract class Room implements Renderable {
     protected List<Entity> getEntities() {
         return entities;
     }
-
     protected void setEntities(List<Entity> entities) {
         this.entities = entities;
+    }
+    protected void addEntity(Entity entity) {
+        this.entities.add(entity);
+    }
+    protected void removeEntity(Entity entity){
+        this.entities.remove(entity);
     }
 
     protected Vec2i getPosition() {
         return position;
     }
-
     protected void setPosition(Vec2i position) {
         this.position = position;
     }
@@ -83,7 +84,6 @@ public abstract class Room implements Renderable {
     protected boolean isLocked() {
         return isLocked;
     }
-
     protected void setLocked(boolean locked) {
         isLocked = locked;
     }

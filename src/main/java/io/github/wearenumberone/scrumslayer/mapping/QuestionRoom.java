@@ -1,6 +1,7 @@
 package io.github.wearenumberone.scrumslayer.mapping;
 
 import io.github.wearenumberone.scrumslayer.Question;
+import io.github.wearenumberone.scrumslayer.entities.QuestionMonster;
 
 public class QuestionRoom extends Room {
     private Question question;
@@ -14,6 +15,13 @@ public class QuestionRoom extends Room {
     }
 
     public void summonMonster(){
-
+        this.parent.setMovementStatus(true);
+        //ToDo: pop up monster and start follow up puzzle
     }
+
+    public void killMonster(){
+        this.entities.removeIf(QuestionMonster.class::isInstance);
+        this.parent.setMovementStatus(false);
+    }
+
 }
