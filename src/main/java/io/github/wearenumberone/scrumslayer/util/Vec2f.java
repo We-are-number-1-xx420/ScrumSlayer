@@ -57,6 +57,9 @@ public class Vec2f {
 	public double magnitude() {
 		return Math.sqrt(this.squaredMagnitude());
 	}
+	public Vec2f unit() {
+		return this.divide((float) this.magnitude());
+	}
 
 	public boolean equals(Vec2f other) {
 		return this.x == other.x && this.y == other.y;
