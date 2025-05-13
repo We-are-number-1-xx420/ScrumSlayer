@@ -8,6 +8,9 @@ public class StyledCharacter {
 		this.character = character;
 		this.style = style;
 	}
+	public StyledCharacter(char character) {
+		this(character, ConsoleStyle.RESET);
+	}
 
 	public char getCharacter() {
 		return this.character;
