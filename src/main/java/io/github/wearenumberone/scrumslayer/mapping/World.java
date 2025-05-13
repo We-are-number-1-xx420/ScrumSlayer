@@ -8,10 +8,11 @@ import io.github.wearenumberone.scrumslayer.util.Vec2i;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class World implements Renderable {
     private Grid<Room> roomGrid;
-    private Room currentRoom;
+    private Vec2i currentPosition;
     private boolean movementStatus = false;
 
     public Grid<StyledCharacter> render(){
@@ -19,19 +20,19 @@ public class World implements Renderable {
 
     }
 
-    public void tryAnswer(String input){
-        if ((this.currentRoom instanceof QuestionRoom) && (!this.currentRoom.isCleared)) {
-            if(((QuestionRoom) this.currentRoom).tryAnswer(input)){
-                this.currentRoom.setCleared(true);
-            }else{
-                //ToDo: monster pop up saying you got it wrong?
-                ((QuestionRoom) this.currentRoom).summonMonster();
+    public void tryAnswer(String input) {
+        if (this.getCurrentRoom() instanceof QuestionRoom room && !room.isCleared()) {
+            if (room.tryAnswer(input)) {
+                room.setCleared(true);
+            } else {
+                //TODO: monster pop up saying you got it wrong?
+                room.summonMonster();
             }
         }
     }
 
     public void tryMove(String input){
-        Vec2i oldPos = roomGrid.find(this.currentRoom);
+        Vec2i oldPos = roomGrid.find(this.getCurrentRoom());
 
         Map<CardinalDirection, Boolean> canMoveMap = new HashMap<>();
         if (this.canAccess(oldPos.add(CardinalDirection.NORTH))) canMoveMap.put(CardinalDirection.NORTH, true);
@@ -55,7 +56,7 @@ public class World implements Renderable {
 
         if(this.roomGrid.exists(newPos) && !this.roomGrid.get(newPos).isLocked() && !movementStatus){
             this.setCurrentRoom(roomGrid.get(newPos));
-            this.currentRoom.render();
+            this.getCurrentRoom().render();
         }
     }
 
@@ -67,7 +68,7 @@ public class World implements Renderable {
     }
 
     public boolean canAccess(Vec2i position) {
-        return roomGrid.exists(position) && this.currentRoom.isCleared;
+        return roomGrid.exists(position) && this.getCurrentRoom().isCleared;
     }
 
     public Grid<Room> getRoomGrid() {
@@ -79,7 +80,13 @@ public class World implements Renderable {
     }
 
     public Room getCurrentRoom() {
-        return this.currentRoom;
+        return this.roomGrid.get(this.currentPosition);
+    }
+
+    public void setCurrentPosition(Vec2i position) {
+        if (!this.roomGrid.isInBounds(position)) throw new ArrayIndexOutOfBoundsException(String.format("Position %s is out of bounds", position));
+        if (!this.roomGrid.exists(position)) throw new NullPointerException(String.format("There is no Room at position %s", position));
+        this.currentPosition = position;
     }
 
     public void setCurrentRoom(Room currentRoom) {
