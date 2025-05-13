@@ -57,7 +57,7 @@ public class Vec2f {
 	public double magnitude() {
 		return Math.sqrt(this.squaredMagnitude());
 	}
-	public Vec2f unit() {
+	public Vec2f normalize() {
 		return this.divide((float) this.magnitude());
 	}
 
