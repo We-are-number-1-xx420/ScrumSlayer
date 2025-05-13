@@ -58,6 +58,7 @@ public class Vec2f {
 		return Math.sqrt(this.squaredMagnitude());
 	}
 	public Vec2f normalize() {
+		if (this.x == 0 && this.y == 0) return Vec2f.ZERO;
 		return this.divide((float) this.magnitude());
 	}
 
