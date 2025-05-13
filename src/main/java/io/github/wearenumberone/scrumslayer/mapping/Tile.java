@@ -9,7 +9,7 @@ public enum Tile implements Renderable {
     EMPTY(' ', new ConsoleStyle()),
     WALL('▦', new ConsoleStyle().setForeground(ConsoleStyle.Color.PURPLE)),
     DOOR_VERTICAL('|', new ConsoleStyle().setForeground(ConsoleStyle.Color.PURPLE)),
-    DOOR_HORIZONTAL('_', new ConsoleStyle().setForeground(ConsoleStyle.Color.PURPLE));
+    DOOR_HORIZONTAL('-', new ConsoleStyle().setForeground(ConsoleStyle.Color.PURPLE));
 
     private final StyledCharacter styledCharacter;
 
