@@ -48,7 +48,7 @@ public class Grid<T> {
 	}
 
 	public boolean exists(int x, int y) {
-		return this.get(x, y) != null;
+		return this.isInBounds(x, y) && this.get(x, y) != null;
 	}
 	public boolean exists(Vec2i position) {
 		return this.exists(position.getX(), position.getY());
@@ -157,12 +157,19 @@ public class Grid<T> {
 		return builder.toString();
 	}
 
-	public <K> Grid<K> map(Function<T, K> mapFunction) {
+	@FunctionalInterface
+	public interface FullMapFunction<R, K> {
+		K apply(R value, Vec2i position);
+	}
+	public <K> Grid<K> map(FullMapFunction<T, K> mapFunction) {
 		Grid<K> result = new Grid<>(this.getWidth(), this.getHeight());
 		for (int y = 0; y < this.getHeight(); y++) for (int x = 0; x < this.getWidth(); x++) {
-			result.set(x, y, mapFunction.apply(this.get(x, y)));
+			result.set(x, y, mapFunction.apply(this.get(x, y), new Vec2i(x, y)));
 		}
 		return result;
+	}
+	public <K> Grid<K> map(Function<T, K> mapFunction) {
+		return this.map((value, _) -> mapFunction.apply(value));
 	}
 
 	public static Grid<Character> fromCharGrid(String charGrid) {
@@ -172,5 +179,11 @@ public class Grid<T> {
 		int height = lines.length;
 
 		return new Grid<Character>(width, height).fill(position -> lines[position.getY()].charAt(position.getX()));
+	}
+
+	public static <K> Grid<K> ofSingle(K value) {
+		Grid<K> grid = new Grid<>(1, 1);
+		grid.set(0, 0, value);
+		return grid;
 	}
 }

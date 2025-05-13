@@ -40,6 +40,10 @@ public class Vec2f {
 		return new Vec2f(this.x / divisor, this.y / divisor);
 	}
 
+	public float dot(Vec2f other) {
+		return this.x * other.x + this.y * other.y;
+	}
+
 	public Vec2f modulo(Vec2f divisor) {
 		return new Vec2f(this.x % divisor.x, this.y % divisor.y);
 	}
@@ -52,6 +56,10 @@ public class Vec2f {
 	}
 	public double magnitude() {
 		return Math.sqrt(this.squaredMagnitude());
+	}
+	public Vec2f normalize() {
+		if (this.x == 0 && this.y == 0) return Vec2f.ZERO;
+		return this.divide((float) this.magnitude());
 	}
 
 	public boolean equals(Vec2f other) {

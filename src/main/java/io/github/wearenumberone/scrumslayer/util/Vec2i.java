@@ -34,6 +34,9 @@ public class Vec2i {
 	public Vec2i modulo(Vec2i divisor) {
 		return new Vec2i(this.x % divisor.x, this.y % divisor.y);
 	}
+	public Vec2f ofFloats() {
+		return new Vec2f(this.x, this.y);
+	}
 
 	public int squaredMagnitude() {
 		return (int) (Math.pow(this.x, 2) + Math.pow(this.y, 2));
