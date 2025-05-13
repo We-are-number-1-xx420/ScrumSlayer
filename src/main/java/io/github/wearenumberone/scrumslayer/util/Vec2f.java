@@ -40,6 +40,10 @@ public class Vec2f {
 		return new Vec2f(this.x / divisor, this.y / divisor);
 	}
 
+	public float dot(Vec2f other) {
+		return this.x * other.x + this.y * other.y;
+	}
+
 	public Vec2f modulo(Vec2f divisor) {
 		return new Vec2f(this.x % divisor.x, this.y % divisor.y);
 	}
