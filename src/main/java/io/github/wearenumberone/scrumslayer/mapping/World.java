@@ -87,6 +87,9 @@ public class World implements Renderable {
         if (!this.roomGrid.exists(position)) throw new NullPointerException(String.format("There is no Room at position %s", position));
         this.currentPosition = position;
     }
+    public Vec2i getCurrentPosition() {
+        return this.currentPosition;
+    }
 
     public void setCurrentRoom(Room room) {
         Vec2i position = this.roomGrid.find(room);
