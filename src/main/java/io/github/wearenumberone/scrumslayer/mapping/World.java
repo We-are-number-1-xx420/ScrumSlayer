@@ -16,8 +16,7 @@ public class World implements Renderable {
     private boolean movementStatus = false;
 
     public Grid<StyledCharacter> render(){
-        return this.currentRoom.render();
-
+        return this.getCurrentRoom().render();
     }
 
     public void tryAnswer(String input) {
@@ -89,7 +88,9 @@ public class World implements Renderable {
         this.currentPosition = position;
     }
 
-    public void setCurrentRoom(Room currentRoom) {
-        this.currentRoom = currentRoom;
+    public void setCurrentRoom(Room room) {
+        Vec2i position = this.roomGrid.find(room);
+        if (position == null) throw new NoSuchElementException("This Room is not present in this World");
+        this.setCurrentPosition(position);
     }
 }
