@@ -1,11 +1,11 @@
 package io.github.wearenumberone.scrumslayer.mapping;
+
 import io.github.wearenumberone.scrumslayer.entities.Entity;
-import io.github.wearenumberone.scrumslayer.entities.PlayerEntity;
+import io.github.wearenumberone.scrumslayer.events.Event;
+import io.github.wearenumberone.scrumslayer.events.EventType;
 import io.github.wearenumberone.scrumslayer.render.Renderable;
 import io.github.wearenumberone.scrumslayer.render.StyledCharacter;
-import io.github.wearenumberone.scrumslayer.util.CardinalDirection;
-import io.github.wearenumberone.scrumslayer.util.Grid;
-import io.github.wearenumberone.scrumslayer.util.Vec2i;
+import io.github.wearenumberone.scrumslayer.util.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,21 +23,25 @@ public abstract class Room implements Renderable {
     protected List<Entity> entities = new ArrayList<>();
     protected Vec2i position;
     protected boolean isLocked;
+    protected Event event;
+    protected List<EventType> eventTypes = new ArrayList<>();
 
     protected Room(World parent) {
         this.parent = parent;
     }
 
+    public void updateRender() {
+        for (CardinalDirection direction : CardinalDirection.all())
+            this.layout.set(new Vec2i(2, 2).add(direction.multiply(2)), direction.getX() == 0 ? Tile.DOOR_VERTICAL : Tile.DOOR_HORIZONTAL);
+
+        for (EventType events : eventTypes){
+            this.event = new Event(events, this);
+            this.event.executeEvent();
+        }
+    }
     public Grid<StyledCharacter> render(){
-        if (this.parent.canAccess(this.position.add(CardinalDirection.NORTH))) this.layout.set(3, 5, Tile.DOOR_HORIZONTAL);
-        if (this.parent.canAccess(this.position.add(CardinalDirection.EAST))) this.layout.set(0, 3, Tile.DOOR_VERTICAL);
-        if (this.parent.canAccess(this.position.add(CardinalDirection.SOUTH))) this.layout.set(3, 0, Tile.DOOR_HORIZONTAL);
-        if (this.parent.canAccess(this.position.add(CardinalDirection.WEST))) this.layout.set(5, 3, Tile.DOOR_VERTICAL);
-
-        Grid<StyledCharacter> gridToRender = this.layout.map(Tile::getAppearance);
-        for (Entity entity : this.entities) gridToRender.paste(entity instanceof PlayerEntity ? new Vec2i(2, 3) : new Vec2i(2, 1), entity.render());
-
-        return gridToRender;
+        this.updateRender();
+        return this.layout.map(Tile::getAppearance);
     }
 
     protected Grid<Tile> getLayout() {
