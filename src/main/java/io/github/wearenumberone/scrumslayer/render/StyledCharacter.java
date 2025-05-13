@@ -4,9 +4,6 @@ public class StyledCharacter {
 	private final char character;
 	private final ConsoleStyle style;
 
-	public StyledCharacter(char character) {
-		this(character, ConsoleStyle.RESET);
-	}
 	public StyledCharacter(char character, ConsoleStyle style) {
 		this.character = character;
 		this.style = style;
