@@ -23,6 +23,16 @@
             <name>Salad Man</name>
             <url>github.com/Julius-IX</url>
         </developer>
+
+        <developer>
+            <name>G.A.S.</name>
+            <url>github.com/gabrielhhs</url>
+        </developer>
+
+        <developer>
+            <name>ferryman</name>
+            <url>github.com/ferrySoi</url>
+        </developer>
     </developers>
 
     <properties>
