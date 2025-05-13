@@ -15,6 +15,7 @@ public class QuestionRoom extends Room {
 
     public void summonMonster(){
         //do shit
+
     }
 
 }
