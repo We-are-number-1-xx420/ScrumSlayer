@@ -21,4 +21,8 @@ public class Game {
     public void processInput(String input){
         //Call needed methods
     }
+
+    public void stop(){
+        this.running = false;
+    }
 }
